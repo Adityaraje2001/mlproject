@@ -2,4 +2,5 @@ pandas
 numpy
 seaborn
 setuptools
--e .
+scikit-learn
+#-e .
