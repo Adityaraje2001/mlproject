@@ -1,13 +1,11 @@
 import os
 import sys
 from dataclasses import dataclass
-from catboost import CatBoostRegressor
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor, AdaBoostRegressor
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import r2_score
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.tree import DecisionTreeRegressor
-from xgboost import XGBRegressor
 from src.exception import CustomException
 from src.logger import logging
 from src.utils import save_object,evaluate_model
@@ -34,8 +32,6 @@ class ModelTrainer:
                 "Gradient Boosting": GradientBoostingRegressor(),
                 "Linear Regression": LinearRegression(),
                 "K-Neighbors Regressor": KNeighborsRegressor(),
-                "XGBRegressor": XGBRegressor(),
-                "CatBoosting Regressor": CatBoostRegressor(verbose=False)
             }
             params={
                 "Random Forest":{
@@ -52,14 +48,7 @@ class ModelTrainer:
                 "K-Neighbors Regressor":{
                     'n_neighbors':[5,7,9,11],
                     'weights':['uniform','distance']
-                },
-                "XGBRegressor":{
-                    'learning_rate':[.1,.01,.05,.001],
-                    'n_estimators':[8,16,32,64,128,256]
-                },
-                "CatBoosting Regressor":{
-                    'learning_rate':[.1,.01,.05,.001],
-                    'n_estimators':[8,16,32,64,128,256]}
+                }
             }
             model_report:dict=evaluate_model(X_train=X_train, y_train=y_train, X_test=X_test, y_test=y_test, models=models, params=params)
             best_model_score = max(sorted(model_report.values()))
